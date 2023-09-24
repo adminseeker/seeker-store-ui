@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/conf/seekerstore" mode="merge"/>
+    <filter root="/content/seekerstore" mode="merge"/>
+    <filter root="/content/dam/seekerstore/asset.jpg" mode="merge"/>
+    <filter root="/content/experience-fragments/seekerstore" mode="merge"/>
+</workspaceFilter>
