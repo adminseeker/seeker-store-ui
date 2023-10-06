@@ -6,3 +6,4 @@ build
 .env
 .env.*
 seekerstore/ui.tests/test-module/assets
+clientlib-react
