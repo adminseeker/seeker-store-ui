@@ -8,22 +8,24 @@ pipeline {
         AEM_PUBLISH_PORT = "4503"
     }
     stages {
-        stage('Code Checkout') {
-            steps{
-                checkout scm
-            }
-        }
         
-        stage('Build Stage') {
+        stage('AEM Build Stage') {
+            when { changeset "seekerstore/**" }
+            agent {
+                docker { 
+                    label 'docker-host'  
+                    image 'maven:3.8.6-jdk-8'
+                    args '-u root:root -v jdk-8-mvn-3.8.6-volume:/root/.m2'  
+                }
+            }
             stages {
-                stage("AEM Build"){
-                     agent {
-                        docker { 
-                            label 'docker-host'  
-                            image 'maven:3.8.6-jdk-8'
-                            args '-u root:root -v jdk-8-mvn-3.8.6-volume:/root/.m2'  
-                        }
+                stage('Code Checkout') {
+                    when { changeset "seekerstore/**" }
+                    steps{
+                        checkout scm
                     }
+                }
+                stage("AEM Build"){
                     when { changeset "seekerstore/**" }
                    
                     steps {
@@ -47,10 +49,26 @@ pipeline {
                     }
                 }
 
-                stage("AEM Dispatcher Build"){
-                    agent {
-                        label 'docker-host'
+                }
+               
+  
+            }
+
+            stage('Dispatcher Build Stage') {
+                when { changeset "dispatcher/**" }
+            agent {
+                label 'docker-host'  
+            }
+            stages {
+                stage('Code Checkout') {
+                    when { changeset "dispatcher/**" }
+                    steps{
+                        checkout scm
                     }
+                }
+
+                stage("AEM Dispatcher Build"){
+
                     when { changeset "dispatcher/**" }
                    
                    
