@@ -24,3 +24,4 @@
 		RewriteRule ^/* /error.html [R=301,L,NC]
 	</IfModule>
 </VirtualHost>
+
