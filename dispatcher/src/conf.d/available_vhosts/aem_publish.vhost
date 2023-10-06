@@ -62,4 +62,3 @@ PassEnv DISP_ID
 		#</If>
 	</IfModule>
 </VirtualHost>
-
