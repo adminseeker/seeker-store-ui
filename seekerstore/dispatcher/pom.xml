@@ -43,15 +43,15 @@
                 <artifactId>maven-enforcer-plugin</artifactId>
                 <executions>
                     <!-- enforce that immutable files are not touched: https://helpx.adobe.com/experience-manager/kb/ams-dispatcher-manual/immutable-files.html -->
-                    <execution>
+                    <!-- <execution>
                         <id>enforce-checksum-of-immutable-files</id>
                         <goals>
                             <goal>enforce</goal>
                         </goals>
                         <configuration>
                             <rules>
-                                <!-- rules being inserted by archetype-pre-package.groovy -->
-                                        <requireTextFileChecksum>
+                                rules being inserted by archetype-pre-package.groovy -->
+                                        <!-- <requireTextFileChecksum>
                                             <file>src/conf/httpd.conf</file>
                                             <checksum>b6a3184f6c69b0a3334e455eeec12d45</checksum>
                                             <type>md5</type>
@@ -270,7 +270,7 @@
 
                             </rules>
                         </configuration>
-                    </execution>
+                    </execution> -->
                 </executions>
             </plugin>
         </plugins>

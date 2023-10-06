@@ -1,6 +1,6 @@
 # Add values for author instances you'll pull content from
 /0 {
-	/hostname "${AUTHOR_IP}"
-	/port "${AUTHOR_PORT}"
+	/hostname "192.168.3.141"
+	/port "4502"
 	/timeout "10000"
 }

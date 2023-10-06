@@ -5,8 +5,8 @@ PassEnv DISP_ID
 <VirtualHost *:80>
 	# allowing slashes in the URL to be encoded and still honored
 	AllowEncodedSlashes On
-	ServerName	"author"
-	ServerAlias	${AUTHOR_DEFAULT_HOSTNAME}
+	ServerName	devaemauthor.aravindweb.com
+	#ServerAlias	${AUTHOR_DEFAULT_HOSTNAME}
 	# Use a special doc root that doesn't overlap publish doc roots or it wont fetch from author each time and authors wont see their changes
 	DocumentRoot	${AUTHOR_DOCROOT}
 	# Add header breadcrumbs for help in troubleshooting
@@ -21,9 +21,9 @@ PassEnv DISP_ID
 	</IfModule>
 	<Directory "${AUTHOR_DOCROOT}">
 		# Update /etc/sysconfig/httpd with setting the AUTHOR_ALLOWLIST_ENABLED from 0 or 1 to enable or disable ip restriction rules
-		<If "${AUTHOR_ALLOWLIST_ENABLED} == 1">
-			Include conf.d/allowlists/*_allowlist.rules
-		</If>
+		#<If "${AUTHOR_ALLOWLIST_ENABLED} == 1">
+		#	Include conf.d/allowlists/*_allowlist.rules
+		#</If>
 		<IfModule disp_apache2.c>
 			# Some items cache with the wrong mime type
 			# Use this option to use the name to auto-detect mime types when cached improperly
@@ -58,12 +58,12 @@ PassEnv DISP_ID
 		# Global rewrite include
 		Include conf.d/rewrites/base_rewrite.rules
 		# Update /etc/sysconfig/httpd with setting the AUTHOR_FORCE_SSL from 0 or 1 to enable or disable enforcing SSL
-		<If "${AUTHOR_FORCE_SSL} == 1">
-			Include conf.d/rewrites/xforwarded_forcessl_rewrite.rules
-		</If>
+		#<If "${AUTHOR_FORCE_SSL} == 1">
+		#	Include conf.d/rewrites/xforwarded_forcessl_rewrite.rules
+		#/If>
 	</IfModule>
 	<IfModule mod_proxy.c>
-		SSLProxyEngine on
-		Include /etc/httpd/conf.d/proxy/*.proxy
+		#SSLProxyEngine on
+		#Include /etc/httpd/conf.d/proxy/*.proxy
 	</IfModule>
 </VirtualHost>

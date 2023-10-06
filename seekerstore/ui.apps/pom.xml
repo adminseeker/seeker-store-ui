@@ -127,6 +127,7 @@
             <type>zip</type>
         </dependency>
 
+
         <!-- SPA Project Core (includes hierarchy page) -->
         <dependency>
             <groupId>com.adobe.aem</groupId>

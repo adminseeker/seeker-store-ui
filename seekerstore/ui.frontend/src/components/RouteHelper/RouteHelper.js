@@ -16,6 +16,7 @@
 
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
+import { AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
 
 /**
  * Helper that facilitate the use of the {@link Route} component
@@ -38,12 +39,22 @@ export const withRoute = (WrappedComponent, extension) => {
 
       extension = extension || 'html';
 
+      let paths = ['(.*)' + routePath + '(.' + extension + ')?'];
+      
+      const PROJECT_URL_ROOT = "/content/seekerstore"
+
+      if (!AuthoringUtils.isInEditor() && routePath.startsWith(PROJECT_URL_ROOT)) {
+          paths.push(routePath.substring(PROJECT_URL_ROOT.length) + ".html");
+      }
+
+      console.log("paths: ",paths)
+
       // Context path + route path + extension
       return (
         <Route
           key={routePath}
           exact
-          path={'(.*)' + routePath + '(.' + extension + ')?'}
+          path = {AuthoringUtils.isInEditor()  ?  '(.*)' + routePath + '(.' + extension + ')?' : paths }
           render={routeProps => {
             return <WrappedComponent {...this.props} {...routeProps} />;
           }}

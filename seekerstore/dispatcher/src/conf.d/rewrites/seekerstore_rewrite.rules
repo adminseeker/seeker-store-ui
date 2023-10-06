@@ -1,5 +1,9 @@
 # rewrite for root redirect
-RewriteRule ^/?$ /content/${CONTENT_FOLDER_NAME}/us/en.html [PT,L]
+#RewriteRule ^/?$ /content/${CONTENT_FOLDER_NAME}/us/en.html [PT,L]
+
+RedirectMatch ^/$ /in/en.html
+RewriteCond %{REQUEST_URI} !^/content/seekerstore
+RewriteRule ^/(.*.html)$  /content/seekerstore/$1 [PT,L]
 
 RewriteCond %{REQUEST_URI} !^/apps
 RewriteCond %{REQUEST_URI} !^/bin

@@ -4,7 +4,7 @@
     <jcr:content
         cq:allowedTemplates="[/conf/seekerstore/settings/wcm/templates/(?!xf-).*]"
         cq:conf="/conf/seekerstore"
-        cq:redirectTarget="/content/seekerstore/us/en"
+        cq:redirectTarget="/content/seekerstore/in/en"
         cq:template="/conf/seekerstore/settings/wcm/templates/spa-app-template"
         jcr:primaryType="cq:PageContent"
         jcr:title="seekerstore"

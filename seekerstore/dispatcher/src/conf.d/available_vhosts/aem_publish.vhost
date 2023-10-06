@@ -5,7 +5,7 @@ PassEnv DISP_ID
 <VirtualHost *:80>
 	# allowing slashes in the URL to be encoded and still honored
 	AllowEncodedSlashes On
-	ServerName	publish
+	ServerName	devaempublish.aravindweb.com
 	# Put names of which domains are used for your published site/content here
 	ServerAlias	${PUBLISH_DEFAULT_HOSTNAME}
 	# Use a doc root that matches what's in the /etc/httpd/conf/publish-farm.any
@@ -22,9 +22,9 @@ PassEnv DISP_ID
 	</IfModule>
 	<Directory "${PUBLISH_DOCROOT}">
 		# Update /etc/sysconfig/httpd with setting the PUBLISH_ALLOWLIST_ENABLED from 0 or 1 to enable or disable ip restriction rules
-		<If "${PUBLISH_ALLOWLIST_ENABLED} == 1">
-			Include conf.d/allowlists/*_allowlist.rules
-		</If>
+		#<If "${PUBLISH_ALLOWLIST_ENABLED} == 1">
+		#	Include conf.d/allowlists/*_allowlist.rules
+		#</If>
 		<IfModule disp_apache2.c>
 			# Some items cache with the wrong mime type
 			# Use this option to use the name to auto-detect mime types when cached improperly
@@ -57,8 +57,8 @@ PassEnv DISP_ID
 		# Global rewrite include
 		Include conf.d/rewrites/base_rewrite.rules
 		# Update /etc/sysconfig/httpd with setting the PUBLISH_FORCE_SSL from 0 or 1 to enable or disable enforcing SSL
-		<If "${PUBLISH_FORCE_SSL} == 1">
-			Include conf.d/rewrites/xforwarded_forcessl_rewrite.rules
-		</If>
+		#<If "${PUBLISH_FORCE_SSL} == 1">
+		#	Include conf.d/rewrites/xforwarded_forcessl_rewrite.rules
+		#</If>
 	</IfModule>
 </VirtualHost>
