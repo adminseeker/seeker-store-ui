@@ -31,7 +31,7 @@ pipeline {
                                 string(credentialsId: 'aem-author-publish-host', variable: 'AEM_HOST')
                                 ]) {
                                 
-                                sh "cd seekerstore && mvn clean install -PautoInstallPackageAuthorPublish -DBuildVersion=${BUILD_NUMBER} -DAemHost=${AEM_HOST} -DAemUser=${AEM_USER} -DAemPassword=${AEM_PASSWORD} -DAemAuthorPort=${AEM_AUTHOR_PORT} -DAemPublishPort=${AEM_PUBLISH_PORT}"
+                                sh "cd seekerstore && mvn clean install -Padobe-public -PautoInstallPackageAuthorPublish -DBuildVersion=${BUILD_NUMBER} -DAemHost=${AEM_HOST} -DAemUser=${AEM_USER} -DAemPassword=${AEM_PASSWORD} -DAemAuthorPort=${AEM_AUTHOR_PORT} -DAemPublishPort=${AEM_PUBLISH_PORT}"
                                 
                             }
                         }
