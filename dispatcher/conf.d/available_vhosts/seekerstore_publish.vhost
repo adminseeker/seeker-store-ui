@@ -10,10 +10,14 @@ PassEnv DISP_ID
 	DocumentRoot	${PUBLISH_DOCROOT}
 	# Add header breadcrumbs for help in troubleshooting
 	<IfModule mod_headers.c>
-		Header always add X-Dispatcher ${DISP_ID}
-		Header always add X-Vhost "publish"
-		Header merge X-Frame-Options SAMEORIGIN "expr=%{resp:X-Frame-Options}!='SAMEORIGIN'"
-		Header merge X-Content-Type-Options nosniff "expr=%{resp:X-Content-Type-Options}!='nosniff'"
+		  LimitRequestFieldSize 32760
+  			LimitRequestLine 32760
+
+			Header always append X-Frame-Options SAMEORIGIN
+			Header set Keep-Alive 'timeout=10, max=98'
+			Header set X-XSS-Protection "1; mode=block"
+			Header always set Strict-Transport-Security "max-age=31536000; includeSubdomains;"
+			Header set X-Content-Type-Options nosniff
 	</IfModule>
 	<Directory "${PUBLISH_DOCROOT}">
 		# Update /etc/sysconfig/httpd with setting the PUBLISH_ALLOWLIST_ENABLED from 0 or 1 to enable or disable ip restriction rules
