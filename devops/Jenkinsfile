@@ -9,7 +9,6 @@ pipeline {
 
       environment {
         GITHUB_CREDENTIALS = credentials('github-secret-as-username-password')
-        AEM_DISPATCHER_SSH_CREDS = credentials('aem-dispatcher-ssh-creds')
         AEM_DISPATCHER_HOST = credentials('aem-dispatcher-host')
         AEM_AUTHOR_PORT = "4502"
         AEM_PUBLISH_PORT = "4503"
@@ -55,12 +54,8 @@ pipeline {
                    
                    
                     steps {
-                        script{
-                             sshagent(credentials: [AEM_DISPATCHER_SSH_CREDS]) {
-                                    sh "cd dispatcher && zip -r aem-dispatcher-1.0.0-dev-SNAPSHOT.zip conf.d/ conf.dispatcher.d/ conf.modules.d/"
-                                    sh "scp -o StrictHostKeyChecking=no dispatcher/aem-dispatcher-1.0.0-dev-SNAPSHOT.zip $AEM_DISPATCHER_HOST:/etc/apache2/."
-                                }
-                            }
+                            sh "cd dispatcher && zip -r aem-dispatcher-1.0.0-dev-SNAPSHOT.zip conf.d/ conf.dispatcher.d/ conf.modules.d/"
+                            sh "scp -o StrictHostKeyChecking=no dispatcher/aem-dispatcher-1.0.0-dev-SNAPSHOT.zip root@$AEM_DISPATCHER_HOST:/etc/apache2/."
                         }
 
                         post {

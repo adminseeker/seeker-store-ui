@@ -67,4 +67,3 @@ PassEnv DISP_ID
 		#Include /etc/httpd/conf.d/proxy/*.proxy
 	</IfModule>
 </VirtualHost>
-
