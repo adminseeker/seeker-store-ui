@@ -585,7 +585,7 @@ Bundle-DocURL:
                             <artifactId>content-package-maven-plugin</artifactId>
                             <executions>
                                 <execution>
-                                    <id>install-package-publish</id>
+                                    <id>install-package-author-publish</id>
                                     <goals>
                                         <goal>install</goal>
                                     </goals>
