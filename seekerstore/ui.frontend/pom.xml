@@ -83,6 +83,16 @@
                                 </environmentVariables>
                             </configuration>
                         </execution>
+                         <execution>
+                            <id>npm run install</id>
+                            <phase>generate-resources</phase>
+                            <goals>
+                                <goal>npm</goal>
+                            </goals>
+                            <configuration>
+                                <arguments>run install</arguments>
+                            </configuration>
+                        </execution>
                         <execution>
                             <id>npm run build</id>
                             <phase>generate-resources</phase>
