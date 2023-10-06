@@ -1,0 +1,56 @@
+pipeline {
+    agent {  docker { image 'maven:3.8.6-jdk-8' } }
+      environment {
+        GITHUB_CREDENTIALS = credentials('github-secret-as-username-password')
+    }
+    stages {
+        stage('Code Checkout') {
+            steps{
+                checkout scm
+            }
+        }
+        stage ('Dummy Stage') {
+            steps {
+                sh 'mvn -version'
+                sh 'java -version'
+            }
+        }
+        
+    //     stage('Build Docker Images') {
+    //         stages {
+    //             stage("user-service build"){
+    //                 when { changeset "seekerstore/**" }
+    //                 steps {
+    //                     sh "cd user-service && mvn clean spring-boot:build-image -DskipTests -DimageVersion=${BUILD_NUMBER}"
+    //                     sh 'echo pushing package to github container registry...'
+    //                     sh "docker tag ghcr.io/adminseeker/user-service:${BUILD_NUMBER} ghcr.io/adminseeker/user-service:latest"
+    //                     sh "docker push ghcr.io/adminseeker/user-service:${BUILD_NUMBER}"
+    //                     sh "docker push ghcr.io/adminseeker/user-service:latest"
+    //                     sh "docker image rm ghcr.io/adminseeker/user-service:${BUILD_NUMBER} ghcr.io/adminseeker/user-service:latest"
+    //                     sh 'cd ..'
+    //                     sh 'echo updating kubernetes userservice manifest file...'
+    //                     sh "sed -i 's+ghcr.io/adminseeker/user-service.*+ghcr.io/adminseeker/user-service:${BUILD_NUMBER}+g' kubernetes/dev/services/userservice.yml"
+                        
+    //                 }
+    //             }
+               
+    //                 post {
+    //                     always {
+    //                         emailext to: "aravindarali125@gmail.com",
+    //                         subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
+    //                         body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}"
+    //                     }
+    //                 }
+    //             }   
+    //         }
+        }
+    
+    // post {
+    //     failure {
+    //         emailext to: "aravindarali125@gmail.com",
+    //         subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
+    //         body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
+    //         recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+    //     }
+    // }
+}
