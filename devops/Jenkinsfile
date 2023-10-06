@@ -75,7 +75,7 @@ pipeline {
                     steps {
                             sh "cd dispatcher && zip -r aem-dispatcher-1.0.0-dev-SNAPSHOT.zip conf.d/ conf.dispatcher.d/ conf.modules.d/"
                             sh "scp -o StrictHostKeyChecking=no dispatcher/aem-dispatcher-1.0.0-dev-SNAPSHOT.zip root@$AEM_DISPATCHER_HOST:/etc/apache2/."
-                            sh "ssh root@$AEM_DISPATCHER_HOST 'service apache2 stop && cd /etc/apache2 && rm -rf conf.d conf.dispatcher.d conf.modules.d && unzip aem-dispatcher-1.0.0-dev-SNAPSHOT.zip'"
+                            sh "ssh root@$AEM_DISPATCHER_HOST 'service apache2 stop && cd /etc/apache2 && rm -rf conf.d conf.dispatcher.d conf.modules.d && unzip aem-dispatcher-1.0.0-dev-SNAPSHOT.zip && service apache2 start'"
                         }
 
                         post {
