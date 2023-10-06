@@ -48,12 +48,17 @@ pipeline {
                 }
 
                 stage("AEM Dispatcher Build"){
+                    agent {
+                        label 'docker-host'
+                    }
                     when { changeset "dispatcher/**" }
+                   
                    
                     steps {
                         script{
                              sshagent(credentials: [AEM_DISPATCHER_SSH_CREDS]) {
-                                    sh "scp dispatcher/src/target/*.zip $AEM_DISPATCHER_HOST:/etc/apache2/."
+                                    sh "cd dispatcher && zip -r aem-dispatcher-1.0.0-dev-SNAPSHOT.zip conf.d/ conf.dispatcher.d/ conf.modules.d/"
+                                    sh "scp -o StrictHostKeyChecking=no dispatcher/aem-dispatcher-1.0.0-dev-SNAPSHOT.zip $AEM_DISPATCHER_HOST:/etc/apache2/."
                                 }
                             }
                         }
