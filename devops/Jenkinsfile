@@ -26,7 +26,7 @@ pipeline {
                     steps {
                         script{
                             withCredentials([
-                                usernamePassword(credentialsId: 'aem-creds', passwordVariable: 'AEM_PASSWORD', usernameVariable: 'AEM_USER')
+                                usernamePassword(credentialsId: 'aem-creds', passwordVariable: 'AEM_PASSWORD', usernameVariable: 'AEM_USER'),
                                 string(credentialsId: 'aem-author-publish-host', variable: 'AEM_HOST')
                                 ]) {
                                 
