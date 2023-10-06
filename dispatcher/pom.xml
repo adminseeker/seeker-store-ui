@@ -6,12 +6,12 @@
     <!-- ====================================================================== -->
     <!-- P A R E N T  P R O J E C T  D E S C R I P T I O N                      -->
     <!-- ====================================================================== -->
-    <parent>
-        <groupId>com.adminseeker</groupId>
-        <artifactId>seekerstore</artifactId>
+    <!-- <parent>
+      
+        <relativePath>seekerstore/pom.xml</relativePath>
+    </parent> -->
+      <groupId>com.adminseeker</groupId>
         <version>${BuildVersion}</version>
-        <relativePath>../pom.xml</relativePath>
-    </parent>
 
     <artifactId>seekerstore.dispatcher.ams</artifactId>
     <name>seekerstore - Dispatcher</name>

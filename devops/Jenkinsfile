@@ -9,6 +9,8 @@ pipeline {
 
       environment {
         GITHUB_CREDENTIALS = credentials('github-secret-as-username-password')
+        AEM_DISPATCHER_SSH_CREDS = credentials('aem-dispatcher-ssh-creds')
+        AEM_DISPATCHER_HOST = credentials('aem-dispatcher-host')
         AEM_AUTHOR_PORT = "4502"
         AEM_PUBLISH_PORT = "4503"
     }
@@ -33,6 +35,26 @@ pipeline {
                                 
                                 sh "cd seekerstore && mvn clean install -Padobe-public -PautoInstallPackagePublish -PautoInstallPackage -DBuildVersion=1.0.0-dev-SNAPSHOT -DAemHost=${AEM_HOST} -DAemUser=${AEM_USER} -DAemPassword=${AEM_PASSWORD} -DAemAuthorPort=${AEM_AUTHOR_PORT} -DAemPublishPort=${AEM_PUBLISH_PORT}"
                                 
+                            }
+                        }
+                    }
+                    post {
+                        always {
+                            emailext to: "aravindarali125@gmail.com",
+                            subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
+                            body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}"
+                        }
+                    }
+                }
+
+                stage("AEM Dispatcher Build"){
+                    when { changeset "dispatcher/**" }
+                   
+                    steps {
+                        script{
+                             sshagent(credentials: [SSH_CREDENTIALS]) {
+                                    sh "scp dispatcher/src/target/*.zip $AEM_DISPATCHER_HOST:/etc/apache2/."
+                                }
                             }
                         }
                     }
