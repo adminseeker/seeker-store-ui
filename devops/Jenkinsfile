@@ -52,7 +52,7 @@ pipeline {
                    
                     steps {
                         script{
-                             sshagent(credentials: [SSH_CREDENTIALS]) {
+                             sshagent(credentials: [AEM_DISPATCHER_SSH_CREDS]) {
                                     sh "scp dispatcher/src/target/*.zip $AEM_DISPATCHER_HOST:/etc/apache2/."
                                 }
                             }
