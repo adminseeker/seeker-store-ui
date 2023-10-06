@@ -54,7 +54,6 @@
         <spa.project.core.version>1.3.12</spa.project.core.version>
         <componentGroupName>seekerstore</componentGroupName>
     </properties>
-
     <build>
         <plugins>
             <!-- Maven Release Plugin -->
