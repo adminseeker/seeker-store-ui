@@ -61,7 +61,7 @@ const Login = (props)=>{
             <form id="loginForm" onSubmit={onSubmit}>
                 {props.usernameLabel}  <input type="text" id="username" onChange={onChange} name="username" />
                 {props.passwordLabel}  <input type="password" id="password" onChange={onChange} name="password"/>
-                <button type="submit">{props.submitButtonLabel}</button>
+                <button className="submit-btn" type="submit">{props.submitButtonLabel}</button>
             </form>
         </div>
     )
