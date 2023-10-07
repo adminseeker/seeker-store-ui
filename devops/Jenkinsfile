@@ -34,7 +34,8 @@ pipeline {
                                 usernamePassword(credentialsId: 'aem-creds', passwordVariable: 'AEM_PASSWORD', usernameVariable: 'AEM_USER'),
                                 string(credentialsId: 'aem-author-publish-host', variable: 'AEM_HOST')
                                 ]) {
-                                
+                                    sh "whoami && hostname"
+                                sh "ping -c 2 192.168.3.141"
                                 sh "cd seekerstore && mvn clean install -Padobe-public -PautoInstallPackagePublish -PautoInstallPackage -DBuildVersion=1.0.0-dev-SNAPSHOT -DAemHost=${AEM_HOST} -DAemUser=${AEM_USER} -DAemPassword=${AEM_PASSWORD} -DAemAuthorPort=${AEM_AUTHOR_PORT} -DAemPublishPort=${AEM_PUBLISH_PORT}"
                                 
                             }
