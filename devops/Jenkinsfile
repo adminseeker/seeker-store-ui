@@ -15,7 +15,7 @@ pipeline {
                 docker { 
                     label 'docker-host'  
                     image 'maven:3.8.6-jdk-8'
-                    args '-u jenkins:root -v jdk-8-mvn-3.8.6-volume:/root/.m2'  
+                    args '-v jdk-8-mvn-3.8.6-volume:/root/.m2'  
                 }
             }
             stages {
