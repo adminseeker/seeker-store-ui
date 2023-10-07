@@ -13,7 +13,7 @@ export default class LocalDevModelClient extends ModelClient{
             return Promise.reject(new Error(err));
         }
 
-        // Either the API host has been provided or we make an absolute request relative to the current host
+        // Either the API host has been provided or we make an absolute request relative to the current host 
         const apihostPrefix = this._apiHost || '';
         const url = `${apihostPrefix}${modelPath}`;
 
