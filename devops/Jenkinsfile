@@ -15,7 +15,7 @@ pipeline {
                 docker { 
                     label 'docker-host'  
                     image 'maven:3.8.6-jdk-8'
-                    args '-u 1000:1000 -e MAVEN_CONFIG=/var/maven/.m2 -e NPM_CONFIG_CACHE=/opt/.npm -v jdk-8-mvn-3.8.6-volume:/var/maven/.m2'  
+                    args '-u 1000:1000 -e MAVEN_CONFIG=/var/maven/.m2 -e NPM_CONFIG_CACHE=/var/maven/.npm -v jdk-8-mvn-3.8.6-volume:/var/maven/.m2'  
                 }
             }
             stages {
