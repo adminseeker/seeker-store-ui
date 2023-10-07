@@ -23,7 +23,7 @@
     <parent>
         <groupId>com.adminseeker</groupId>
         <artifactId>seekerstore</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>${BuildVersion}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 

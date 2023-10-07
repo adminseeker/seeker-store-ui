@@ -1,0 +1,104 @@
+pipeline {
+    agent none
+
+      environment {
+        GITHUB_CREDENTIALS = credentials('github-secret-as-username-password')
+        AEM_DISPATCHER_HOST = credentials('aem-dispatcher-host')
+        AEM_AUTHOR_PORT = "4502"
+        AEM_PUBLISH_PORT = "4503"
+    }
+    stages {
+        
+        stage('AEM Build Stage') {
+            when { changeset "seekerstore/**" }
+            agent {
+                docker { 
+                    label 'docker-host'  
+                    image 'maven:3.8.6-jdk-8'
+                    args '-u 1000:1000 -e MAVEN_CONFIG=/var/maven/.m2 -e NPM_CONFIG_CACHE=/tmp/.npm -v jdk-8-mvn-3.8.6-volume:/var/maven/.m2'  
+                }
+            }
+            stages {
+                stage('Code Checkout') {
+                    when { changeset "seekerstore/**" }
+                    steps{
+                        checkout scm
+                    }
+                }
+                stage("AEM Build"){
+                    when { changeset "seekerstore/**" }
+                   
+                    steps {
+                        script{
+                            withCredentials([
+                                usernamePassword(credentialsId: 'aem-creds', passwordVariable: 'AEM_PASSWORD', usernameVariable: 'AEM_USER'),
+                                string(credentialsId: 'aem-author-publish-host', variable: 'AEM_HOST')
+                                ]) {
+
+                                sh "cd seekerstore && mvn clean install -Padobe-public -PautoInstallPackagePublish -PautoInstallPackage -DBuildVersion=1.0.0-dev-SNAPSHOT -DAemHost=${AEM_HOST} -DAemUser=${AEM_USER} -DAemPassword=${AEM_PASSWORD} -DAemAuthorPort=${AEM_AUTHOR_PORT} -DAemPublishPort=${AEM_PUBLISH_PORT}"
+                                
+                            }
+                        }
+                    }
+                    post {
+                        always {
+                            emailext to: "aravindarali125@gmail.com",
+                            subject: "Jenkins Build of of AEM Website ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
+                            body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}"
+                        }
+                    }
+                }
+
+                }
+               
+  
+            }
+
+            stage('Dispatcher Build Stage') {
+                when { changeset "dispatcher/**" }
+            agent {
+                label 'docker-host'  
+            }
+            stages {
+                stage('Code Checkout') {
+                    when { changeset "dispatcher/**" }
+                    steps{
+                        checkout scm
+                    }
+                }
+
+                stage("AEM Dispatcher Build"){
+
+                    when { changeset "dispatcher/**" }
+                   
+                   
+                    steps {
+                            sh "cd dispatcher && zip -r aem-dispatcher-1.0.0-dev-SNAPSHOT.zip conf.d/ conf.dispatcher.d/ conf.modules.d/"
+                            sh "scp -o StrictHostKeyChecking=no dispatcher/aem-dispatcher-1.0.0-dev-SNAPSHOT.zip root@$AEM_DISPATCHER_HOST:/etc/apache2/."
+                            sh "ssh root@$AEM_DISPATCHER_HOST 'service apache2 stop && cd /etc/apache2 && rm -rf conf.d conf.dispatcher.d conf.modules.d && unzip aem-dispatcher-1.0.0-dev-SNAPSHOT.zip && service apache2 start'"
+                        }
+
+                        post {
+                        always {
+                            emailext to: "aravindarali125@gmail.com",
+                            subject: "Jenkins Build of AEM DISPATCHER ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
+                            body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}"
+                        }
+                    }
+                    }
+                    
+                }
+               
+  
+            }
+        }
+    
+    post {
+        failure {
+            emailext to: "aravindarali125@gmail.com",
+            subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
+            body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
+            recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+        }
+    }
+}

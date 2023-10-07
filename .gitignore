@@ -3,6 +3,7 @@ target
 node_modules
 node
 build
-.env
+# .env
 .env.*
 seekerstore/ui.tests/test-module/assets
+# clientlib-react
