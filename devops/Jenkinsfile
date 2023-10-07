@@ -15,7 +15,7 @@ pipeline {
                 docker { 
                     label 'docker-host'  
                     image 'maven:3.8.6-jdk-8'
-                    args "-u 1000:1000 -w /home/jenkins -v /etc/group:/etc/group:ro -v /etc/passwd:/etc/passwd:ro -v /etc/shadow:/etc/shadow:ro -v jdk-8-mvn-3.8.6-volume:/home/jenkins/.m2"  
+                    args '-u root:root -v jdk-8-mvn-3.8.6-volume:/root/.m2'  
                 }
             }
             stages {
@@ -34,7 +34,7 @@ pipeline {
                                 usernamePassword(credentialsId: 'aem-creds', passwordVariable: 'AEM_PASSWORD', usernameVariable: 'AEM_USER'),
                                 string(credentialsId: 'aem-author-publish-host', variable: 'AEM_HOST')
                                 ]) {
-                                   
+                                sh "sudo chown -R jenkins:jenkins ."  
                                 sh "cd seekerstore && mvn clean install -Padobe-public -PautoInstallPackagePublish -PautoInstallPackage -DBuildVersion=1.0.0-dev-SNAPSHOT -DAemHost=${AEM_HOST} -DAemUser=${AEM_USER} -DAemPassword=${AEM_PASSWORD} -DAemAuthorPort=${AEM_AUTHOR_PORT} -DAemPublishPort=${AEM_PUBLISH_PORT}"
                                 
                             }
