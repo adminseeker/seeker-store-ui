@@ -15,7 +15,7 @@ pipeline {
                 docker { 
                     label 'docker-host'  
                     image 'maven:3.8.6-jdk-8'
-                    args "-u $UID:$GID -w /home/$USER -v /etc/group:/etc/group:ro -v /etc/passwd:/etc/passwd:ro -v /etc/shadow:/etc/shadow:ro -v jdk-8-mvn-3.8.6-volume:/home/$USER/.m2"  
+                    args "-u 1000:1000 -w /home/jenkins -v /etc/group:/etc/group:ro -v /etc/passwd:/etc/passwd:ro -v /etc/shadow:/etc/shadow:ro -v jdk-8-mvn-3.8.6-volume:/home/jenkins/.m2"  
                 }
             }
             stages {

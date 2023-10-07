@@ -38,7 +38,6 @@ class Text extends Component {
     );
   }
 
-
   get textContent() {
     return <div>{this.props.text}</div>;
   }
