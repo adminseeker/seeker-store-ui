@@ -13,7 +13,7 @@ import feign.Feign;
 import feign.jackson.JacksonDecoder;
 import lombok.extern.slf4j.Slf4j;
 
-@Component(service = AuthService.class)
+@Component(service = UserService.class)
 @Designate(ocd = ApiRestConfig.class)
 @Slf4j
 public class UserService {

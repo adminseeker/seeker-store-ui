@@ -85,7 +85,7 @@ MapTo('seekerstore/components/container')(ContainerV1, {isEmpty: ContainerV1IsEm
  * @type EditConfig
  */
 const TextEditConfig = {
-    emptyLabel: 'Text123',
+    emptyLabel: 'Text',
 
     isEmpty: function (props) {
         console.log("inside Empty: ",props)
