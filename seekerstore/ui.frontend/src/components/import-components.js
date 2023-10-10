@@ -88,6 +88,7 @@ const TextEditConfig = {
     emptyLabel: 'Text123',
 
     isEmpty: function (props) {
+        console.log("inside Empty: ",props)
         return !props || !props.text || props.text.trim().length < 1;
     }
 };

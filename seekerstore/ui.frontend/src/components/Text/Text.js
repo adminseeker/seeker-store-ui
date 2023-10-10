@@ -40,6 +40,7 @@ class Text extends Component {
 
   
   get textContent() {
+    console.log("inside component: ",this.props)
     return <div>{this.props.text}</div>;
   }
 
