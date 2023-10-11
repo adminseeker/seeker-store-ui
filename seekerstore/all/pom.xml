@@ -236,5 +236,15 @@
             <artifactId>core.wcm.components.config</artifactId>
             <type>zip</type>
         </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-core</artifactId>
+            <version>12.5</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-jackson</artifactId>
+            <version>12.5</version>
+        </dependency>
     </dependencies>
 </project>
