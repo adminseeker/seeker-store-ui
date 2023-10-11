@@ -108,6 +108,10 @@
                             <groupId>io.github.openfeign</groupId>
                             <target>/apps/seekerstore-packages/application/install</target>
                         </embedded>
+                        <embedded>
+                            <groupId>com.fasterxml.jackson.core</groupId>
+                            <target>/apps/seekerstore-packages/application/install</target>
+                        </embedded>
                     </embeddeds>
                 </configuration>
             </plugin>
