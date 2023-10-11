@@ -10,6 +10,7 @@ import com.drew.lang.annotations.Nullable;
 
 import feign.Feign;
 import feign.jackson.JacksonDecoder;
+import feign.jackson.JacksonEncoder;
 import lombok.extern.slf4j.Slf4j;
 
 @Component(service = AuthService.class,immediate = true)
@@ -22,8 +23,10 @@ public class AuthService {
     @Activate
     public void activate(final ApiRestConfig config){
         this.api = Feign.builder()
+                        .encoder(new JacksonEncoder())
                         .decoder(new JacksonDecoder())
                         .errorDecoder(AuthServiceApi.AuthServiceApiException::new)
+                        .requestInterceptor(request -> request.header("Content-Type","application/json"))
                         .requestInterceptor(request -> request.header("Source-Application",config.sourceApplication()))
                         .target(AuthServiceApi.class, config.seekerStoreApiEndPointUrl());
     }
