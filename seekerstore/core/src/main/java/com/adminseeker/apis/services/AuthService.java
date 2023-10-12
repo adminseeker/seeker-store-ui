@@ -6,6 +6,8 @@ import org.osgi.service.metatype.annotations.Designate;
 
 import com.adminseeker.apis.bo.AuthRequest;
 import com.adminseeker.apis.bo.AuthResponse;
+import com.adminseeker.apis.exceptions.ApiException;
+import com.adminseeker.apis.utils.CustomErrorDecoder;
 import com.drew.lang.annotations.Nullable;
 
 import feign.Feign;
@@ -25,7 +27,7 @@ public class AuthService {
         this.api = Feign.builder()
                         .encoder(new JacksonEncoder())
                         .decoder(new JacksonDecoder())
-                        .errorDecoder(AuthServiceApi.AuthServiceApiException::new)
+                        .errorDecoder(new CustomErrorDecoder())
                         .requestInterceptor(request -> request.header("Content-Type","application/json"))
                         .requestInterceptor(request -> request.header("Source-Application",config.sourceApplication()))
                         .target(AuthServiceApi.class, config.seekerStoreApiEndPointUrl());
@@ -35,9 +37,12 @@ public class AuthService {
     public AuthResponse getToken(AuthRequest authRequest){
         try{
             return this.api.getToken(authRequest);
-        }catch (final AuthServiceApi.AuthServiceApiException e){
+        }catch (final ApiException e){
             log.error("API Access Token Error",e);
+            AuthResponse authResponse = new AuthResponse();
+            authResponse.setMsg(e.getMsg());
+            authResponse.setStatusCode(e.getStatusCode());
+            return authResponse;
         }
-        return null;
     }
 }

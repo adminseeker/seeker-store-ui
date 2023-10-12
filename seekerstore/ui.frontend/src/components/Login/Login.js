@@ -30,15 +30,15 @@ const Login = (props)=>{
         e.preventDefault();
         const config = {
             headers:{
-                "Content-Type":"application/json"
+                "Content-Type":"application/x-www-form-urlencoded"
             }
         }
-        const body = JSON.stringify({username,password});
         try {
-            const res = await axios.post(props.cqPath+".login.json",body,config);
+            const res = await axios.post(props.cqPath+".login.json",formData,config);
             console.log("authservlet: ",res.data);
-            let userDetails = await getUserDetails(res.data.token);
-            console.log(userDetails);
+            localStorage.setItem("access-token",res.data.token);
+            // let userDetails = await getUserDetails(res.data.token);
+            // console.log(userDetails);
 
         } catch (err) {
             console.log(err);

@@ -12,9 +12,11 @@ public class UserProfile {
     private String phone;
     private String role;
     private List<Address> addressList;
+    private String msg;
+    private Integer statusCode;
 
     @Data
-    class Address {
+    static class Address {
         private String addressId;
         private String nickname;
         private String phone;
