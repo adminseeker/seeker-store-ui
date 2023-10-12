@@ -35,7 +35,8 @@ const Login = (props)=>{
         }
         const body = JSON.stringify({username,password});
         try {
-            const res = await axios.post("https://dev-apis.seeker-store.k8s.aravindweb.com/authservice/api/v1/auth/login",body,config);
+            const res = await axios.post(props.cqPath+".login.json",body,config);
+            console.log("authservlet: ",res.data);
             let userDetails = await getUserDetails(res.data.token);
             console.log(userDetails);
 
