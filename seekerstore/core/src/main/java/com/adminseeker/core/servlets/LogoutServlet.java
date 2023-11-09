@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.HttpConstants;
+import org.apache.sling.api.servlets.ServletResolverConstants;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.servlets.annotations.SlingServletResourceTypes;
 import org.osgi.service.component.annotations.Component;
@@ -20,19 +21,18 @@ import org.osgi.service.component.propertytypes.ServiceDescription;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import java.io.IOException;
+import org.osgi.framework.Constants;
 
-
-@Component(service = Servlet.class, immediate = true)
-@SlingServletResourceTypes(
-        resourceTypes="seekerstore/components/login",
-        methods=HttpConstants.METHOD_POST,
-        selectors = "login",
-        extensions="json")
-@ServiceDescription("Login Servlet")
-public class LoginServlet extends SlingAllMethodsServlet {
+@Component(service = Servlet.class, 
+        property = { 
+            Constants.SERVICE_DESCRIPTION + "=Logout servlet", 
+            ServletResolverConstants.SLING_SERVLET_METHODS + "=" + HttpConstants.METHOD_GET, 
+            ServletResolverConstants.SLING_SERVLET_PATHS + "="+ "/bin/seekerstore/logout"
+		},immediate=true)
+@ServiceDescription("Logout Servlet")
+public class LogoutServlet extends SlingAllMethodsServlet {
 
     private static final long serialVersionUID = 1L;
-    private Gson gson = new Gson();
 
     @Reference
     private transient AuthService authService;
@@ -42,19 +42,11 @@ public class LoginServlet extends SlingAllMethodsServlet {
 
 
     @Override
-    protected void doPost(final SlingHttpServletRequest request,
+    protected void doGet(final SlingHttpServletRequest request,
             final SlingHttpServletResponse response) throws ServletException, IOException {
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            AuthRequest authRequest = new AuthRequest();
-            authRequest.setUsername(request.getParameter("username"));
-            authRequest.setPassword(request.getParameter("password"));
-            AuthResponse authResponse = authService.getToken(authRequest);
-            if(StringUtils.isNotEmpty(authResponse.getToken())){
-                cookieService.createSimpleCookie(response, "access-token",authResponse.getToken());
+            if(cookieService.getCookieByName(request, "access-token")!=null){
+                cookieService.clearCookieByName("access-token",response);
             }
-            String jsonString = gson.toJson(authResponse, AuthResponse.class);
-            response.getWriter().print(jsonString);
-        
+            response.sendRedirect("/");
     }
 }

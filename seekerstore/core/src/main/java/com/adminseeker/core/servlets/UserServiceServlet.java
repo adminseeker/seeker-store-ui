@@ -1,10 +1,8 @@
 package com.adminseeker.core.servlets;
 
-import com.adminseeker.apis.bo.AuthRequest;
-import com.adminseeker.apis.bo.AuthResponse;
 import com.adminseeker.apis.bo.UserProfile;
-import com.adminseeker.apis.services.AuthService;
 import com.adminseeker.apis.services.UserService;
+import com.adminseeker.core.utils.CookieUtilService;
 import com.google.gson.Gson;
 
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -37,13 +35,19 @@ public class UserServiceServlet extends SlingAllMethodsServlet {
     @Reference
     private transient UserService userService;
 
+    @Reference
+    private transient CookieUtilService cookieService;
 
     @Override
     protected void doPost(final SlingHttpServletRequest request,
             final SlingHttpServletResponse response) throws ServletException, IOException {
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-            userService.setToken(request.getParameter("token"));
+            String token = null;
+            if(cookieService.getCookieByName(request, "access-token")!=null){
+                token = cookieService.getCookieByName(request, "access-token").getValue();
+            }
+            userService.setToken(token);
             String selector = request.getRequestPathInfo().getSelectorString();
             String jsonString=null;
             if(selector.equals("profile")){

@@ -9,6 +9,9 @@ import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 import com.adobe.cq.export.json.ComponentExporter;
 import com.adobe.cq.export.json.ExporterConstants;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Model(adaptables = SlingHttpServletRequest.class, adapters = {LoginModel.class, ComponentExporter.class},
     resourceType = LoginModel.RESOURCE_TYPE, defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
 
@@ -18,42 +21,36 @@ public class LoginModel implements ComponentExporter{
     static final String RESOURCE_TYPE = "seekerstore/components/login";
 
     @ValueMapValue
+    @Getter @Setter
     private String usernameLabel;
     
     @ValueMapValue
+    @Getter @Setter
     private String passwordLabel;
 
     @ValueMapValue
+    @Getter @Setter
     private String submitButtonLabel;
 
+    @ValueMapValue
+    @Getter @Setter
+    private String forgotPasswordLinkLabel;
 
-    public String getUsernameLabel() {
-        return usernameLabel;
-    }
+    @ValueMapValue
+    @Getter @Setter
+    private String forgotPasswordLink;
 
+    @ValueMapValue
+    @Getter @Setter
+    private String signUpLinkLabel;
 
-    public void setUsernameLabel(String usernameLabel) {
-        this.usernameLabel = usernameLabel;
-    }
+    @ValueMapValue
+    @Getter @Setter
+    private String signUpLink;
 
-
-    public String getPasswordLabel() {
-        return passwordLabel;
-    }
-
-    public void setPasswordLabel(String passwordLabel) {
-        this.passwordLabel = passwordLabel;
-    }
-
-    public String getSubmitButtonLabel() {
-        return submitButtonLabel;
-    }
-
-
-    public void setSubmitButtonLabel(String submitButtonLabel) {
-        this.submitButtonLabel = submitButtonLabel;
-    }
-
+    @ValueMapValue
+    @Getter @Setter
+    private String dashboardLink;
 
     @Override
     public String getExportedType() {return LoginModel.RESOURCE_TYPE ;}

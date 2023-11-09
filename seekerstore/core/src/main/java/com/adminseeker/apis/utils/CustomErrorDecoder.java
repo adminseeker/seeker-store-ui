@@ -1,7 +1,6 @@
 package com.adminseeker.apis.utils;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
@@ -10,7 +9,6 @@ import org.apache.commons.lang.StringUtils;
 
 import com.adminseeker.apis.bo.ErrorMessage;
 import com.adminseeker.apis.exceptions.ApiException;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.google.gson.Gson;
 
 import feign.Response;
@@ -29,7 +27,7 @@ public class CustomErrorDecoder implements ErrorDecoder {
           .lines()
           .collect(Collectors.joining("\n"));
           ErrorMessage errorMessage = new Gson().fromJson(body, ErrorMessage.class); 
-          msg = errorMessage.getMsg(); 
+          msg = StringUtils.isNotEmpty(errorMessage.getMsg()) ? errorMessage.getMsg()  : errorMessage.getError() ; 
     } catch (IOException ignore) {}
 
 

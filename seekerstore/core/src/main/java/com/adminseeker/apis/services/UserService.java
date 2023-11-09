@@ -3,6 +3,7 @@ package com.adminseeker.apis.services;
 import org.apache.commons.lang.StringUtils;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.metatype.annotations.Designate;
 
 import com.adminseeker.apis.bo.UserProfile;
@@ -24,41 +25,32 @@ import lombok.extern.slf4j.Slf4j;
 public class UserService {
     
     private UserServiceApi api;
-    private Builder apiBuilder;
+    // private Builder apiBuilder;
     private ApiRestConfig apiConfig;
-    @Getter
-    @Setter
+    
+    @Getter @Setter
     private String token;
 
     @Activate
     public void activate(final ApiRestConfig config){
         this.apiConfig=config;
-        this.apiBuilder = 
-                     
-                        Feign.builder()
+    }
+
+    private Builder ApiBuilder(){
+        return Feign.builder()
                             .encoder(new JacksonEncoder())
                             .decoder(new JacksonDecoder())
                             .errorDecoder(new CustomErrorDecoder())
                             .requestInterceptor(request -> request.header("Content-Type","application/json"))
-                            .requestInterceptor(request -> request.header("Source-Application",config.sourceApplication()));
-                            // .target(UserServiceApi.class, apiConfig.seekerStoreApiEndPointUrl())
-                    // :
-                    //     Feign.builder()
-                    //         .encoder(new JacksonEncoder())
-                    //         .decoder(new JacksonDecoder())
-                    //         .errorDecoder(new CustomErrorDecoder())
-                    //         .requestInterceptor(request -> request.header("Content-Type","application/json"))
-                    //         .requestInterceptor(request -> request.header("Source-Application",config.sourceApplication()));
-                            // .requestInterceptor(request -> request.header("Authorization","Bearer "+this.token))
-                            // .target(UserServiceApi.class, apiConfig.seekerStoreApiEndPointUrl());
+                            .requestInterceptor(request -> request.header("Source-Application",this.apiConfig.sourceApplication()));
     }
 
     @Nullable
     public UserProfile getUserProfile(){
         try{
-            this.api = this.apiBuilder
-                .requestInterceptor(request -> request.header("Authorization","Bearer "+this.token))
-                .target(UserServiceApi.class, apiConfig.seekerStoreApiEndPointUrl());
+            this.api = ApiBuilder()
+                            .requestInterceptor(request -> request.header("Authorization","Bearer "+this.token))
+                            .target(UserServiceApi.class, this.apiConfig.seekerStoreApiEndPointUrl());
             return this.api.getUserProfile();
         }catch (final ApiException e){
             log.error("User Profile API Error",e);

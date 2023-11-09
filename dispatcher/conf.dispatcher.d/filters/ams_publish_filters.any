@@ -41,3 +41,4 @@
 /0105 { /type "allow" /extension '(gltf|stl|obj|usdz|glb)' /method "GET" /path "/content/dam/*" }
 
 /0106 { /type "allow" /url "/content/seekerstore/*" }
+/0107 { /type "allow" /url "/bin/seekerstore/*" }
