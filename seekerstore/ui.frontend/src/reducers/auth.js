@@ -3,6 +3,7 @@ const initialState = {
     isAuthenticated:null,
     loading:true,
     user:null,
+    isPageAuthenticated:null,
     forgotPasswordEmail:""
 };
 
@@ -21,6 +22,12 @@ const authReducer = (state=initialState,action)=>{
             return{
                 ...state,
                 isAuthenticated:true,
+                loading:false
+            }
+        case "PAGE_AUTHENTICATED":
+            return{
+                ...state,
+                isAuthenticatedPage: true,
                 loading:false
             }
         case "FORGOT_PASSWORD":

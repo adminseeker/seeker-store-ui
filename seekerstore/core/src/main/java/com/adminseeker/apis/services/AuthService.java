@@ -6,6 +6,7 @@ import org.osgi.service.metatype.annotations.Designate;
 
 import com.adminseeker.apis.bo.AuthRequest;
 import com.adminseeker.apis.bo.AuthResponse;
+import com.adminseeker.apis.bo.SignupRequest;
 import com.adminseeker.apis.exceptions.ApiException;
 import com.adminseeker.apis.utils.CustomErrorDecoder;
 import com.drew.lang.annotations.Nullable;
@@ -37,6 +38,19 @@ public class AuthService {
     public AuthResponse getToken(AuthRequest authRequest){
         try{
             return this.api.getToken(authRequest);
+        }catch (final ApiException e){
+            log.error("API Access Token Error",e);
+            AuthResponse authResponse = new AuthResponse();
+            authResponse.setMsg(e.getMsg());
+            authResponse.setStatusCode(e.getStatusCode());
+            return authResponse;
+        }
+    }
+
+    @Nullable
+    public AuthResponse getTokenOnRegister(SignupRequest signupRequest){
+        try{
+            return this.api.getTokenOnRegister(signupRequest);
         }catch (final ApiException e){
             log.error("API Access Token Error",e);
             AuthResponse authResponse = new AuthResponse();

@@ -20,6 +20,7 @@ import './Container/Container';
 import './ExperienceFragment/ExperienceFragment';
 import './Login/Login';
 import './Profile/Profile';
+import './SignUp/SignUp';
 
 import {MapTo} from '@adobe/aem-react-editable-components';
 

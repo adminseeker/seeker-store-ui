@@ -16,10 +16,10 @@ import { MapTo } from "@adobe/aem-react-editable-components";
 import {useDispatch, useSelector} from "react-redux";
 import { Redirect } from "react-router-dom";
 import {login} from "../../actions/auth"
+import { AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
 
 
 
-// TODO remove, this demo shouldn't need to reset the theme.
 
 const LoginEditConfig = {
     
@@ -36,34 +36,64 @@ const Login = (props) => {
     const [formData,setFormData] = React.useState({
         username:"",
         password:"",
-        error:false
     });
 
+    const [error,setError] = React.useState(null);
+    const [emailError,setEmailError] = React.useState(null);
+    const [passwordError,setPasswordError] = React.useState(null);
+
     const dispatch = useDispatch(); 
-    
     const store = useSelector((state)=>({
         isAuthenticated: state.auth.isAuthenticated,
+        isAuthenticatedPage: state.auth.isAuthenticatedPage,
         loading: state.auth.loading
     }));
 
     if (LoginEditConfig.isEmpty(props)) { return null; }
-    const {username,password,error} = formData;
+    const {username,password} = formData;
     
     const onChange = (e)=>{
-        setFormData({...formData , [e.target.name]:e.target.value})
+        setError(null);
+        const isValidEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+        if(e.target?.name=="username"){
+            if(e.target.value && e.target.value.match(isValidEmail)){
+                setEmailError(null);
+                setFormData({...formData , [e.target.name]:e.target.value})
+              }else{
+                setEmailError(props.invalidEmailError);
+              }
+        }else if(e.target?.name=="password"){
+            if(e.target.value && e.target.value.length >= Number(props.minimumPasswordLength)){
+                setPasswordError(null);
+                setFormData({...formData , [e.target.name]:e.target.value})
+              }else{
+                setPasswordError(props.invalidPasswordError);
+              }
+        }
     }
     
     const onSubmit = async (e)=>{
         e.preventDefault();
         try {
             let cqPath = props.cqPath
-            const data = await dispatch(login(cqPath,{username,password}));
+            setError(null);
+            if(!emailError && !passwordError){
+                const data = await dispatch(login(cqPath,{username,password}));
+                console.log("errordata: ",data)
+                if(data.msg){
+                    if(data.statusCode===403){
+                        setError(props.invalidCredsError);
+                    }else{
+                        setError(props.genericError);
+                    }
+                }
+            }
         } catch (err) {
             console.log(err);
         }
     }
 
-    if(store.isAuthenticated) return <Redirect to={props.dashboardLink}/>
+    if(!AuthoringUtils.isInEditor() && store.isAuthenticated) return <Redirect to={props.dashboardLink}/>
 
 
   return (
@@ -94,8 +124,10 @@ const Login = (props) => {
               name="username"
               autoComplete="email"
               onChange={onChange}
+              error={error || emailError}
               autoFocus
             />
+            {emailError && <Typography component={"span"} color="red">{emailError}</Typography>}
             <TextField
               margin="normal"
               required
@@ -106,8 +138,10 @@ const Login = (props) => {
               id="password"
               autoComplete="current-password"
               onChange={onChange}
+              error={error || passwordError}
             />
-          
+            {passwordError && <Typography component={"span"} color="red">{passwordError}</Typography>}
+            {!emailError && !passwordError && error && <Typography component={"span"} color="red">{error}</Typography>}
             <Button
               type="submit"
               fullWidth

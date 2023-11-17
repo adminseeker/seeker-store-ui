@@ -1,37 +1,43 @@
 import {React, useEffect, useState} from "react";
 import { MapTo } from "@adobe/aem-react-editable-components";
 import {useDispatch, useSelector} from "react-redux";
-import { loadUser } from "../../actions/auth";
+import { loadUser,isPageProtected } from "../../actions/auth";
+import { Redirect } from "react-router-dom";
+import { AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
  
 const ProfileEditConfig = {
     emptyLabel: "Profile component",
   
-    isEmpty: function (props) {return props?.usernameLabel?.trim().length < 1}
+    isEmpty: function () {return AuthoringUtils.isInEditor() }
     
   };
   
  
 
-const Profile = (props)=>{
+const Profile = ({cqPath})=>{
 
     const store = useSelector((state)=>({
         isAuthenticated: state.auth.isAuthenticated,
+        isAuthenticatedPage: state.auth.isAuthenticatedPage,
         loading: state.auth.loading,
         user: state.auth.user
     }));
-
+    const isInEditor = AuthoringUtils.isInEditor();
     const dispatch = useDispatch();
    
     useEffect(()=>{
-        dispatch(loadUser())
-    },[dispatch])
+        !isInEditor && dispatch(loadUser())
+        !isInEditor && dispatch(isPageProtected(cqPath));
+    },[dispatch,cqPath])
     
-    
-    if (ProfileEditConfig.isEmpty(props)) { return null; }
+    if (ProfileEditConfig.isEmpty()) { return null; }
+
+    if(!isInEditor && store.isAuthenticatedPage && !store.isAuthenticated){
+        return <Redirect to="/in/en/login.html"/>
+    }
 
     return (
         <div className="Profile-component">
-          
         </div>
     )
 }

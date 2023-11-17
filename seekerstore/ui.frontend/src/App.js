@@ -3,6 +3,7 @@ import {React} from 'react';
 import configureStore from './store/configureStore';
 import { loadUser } from './actions/auth';
 import { Provider } from 'react-redux';
+import { AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
 
 // This component is the application entry point
 
@@ -10,7 +11,7 @@ const store = configureStore();
 class App extends Page {
   
   componentDidMount(){
-    store.dispatch(loadUser());
+    !AuthoringUtils.isInEditor() && store.dispatch(loadUser());
   }
   render() {
     return (

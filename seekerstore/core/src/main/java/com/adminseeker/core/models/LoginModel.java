@@ -52,6 +52,26 @@ public class LoginModel implements ComponentExporter{
     @Getter @Setter
     private String dashboardLink;
 
+    @ValueMapValue
+    @Getter @Setter
+    private String invalidCredsError;
+
+    @ValueMapValue
+    @Getter @Setter
+    private String genericError;
+
+    @ValueMapValue
+    @Getter @Setter
+    private String invalidEmailError;
+
+    @ValueMapValue
+    @Getter @Setter
+    private String minimumPasswordLength;
+
+    @ValueMapValue
+    @Getter @Setter
+    private String invalidPasswordError;
+
     @Override
     public String getExportedType() {return LoginModel.RESOURCE_TYPE ;}
 

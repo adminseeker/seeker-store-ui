@@ -20,6 +20,7 @@ import { MapTo } from "@adobe/aem-react-editable-components";
 import Link from '@mui/material/Link';
 import { useSelector,useDispatch } from 'react-redux';
 import { loadUser } from '../../actions/auth';
+import { AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
 
 require("./Header.css")
 
@@ -66,7 +67,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const  Header = (props) => {
 
   React.useEffect(()=>{
-    dispatch(loadUser())
+    !AuthoringUtils.isInEditor() && dispatch(loadUser())
   },[])
   const dispatch = useDispatch();
 

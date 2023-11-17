@@ -2,6 +2,7 @@ package com.adminseeker.core.servlets;
 
 import com.adminseeker.apis.bo.AuthRequest;
 import com.adminseeker.apis.bo.AuthResponse;
+import com.adminseeker.apis.bo.SignupRequest;
 import com.adminseeker.apis.services.AuthService;
 import com.adminseeker.core.utils.CookieUtilService;
 import com.google.gson.Gson;
@@ -24,9 +25,9 @@ import java.io.IOException;
 
 @Component(service = Servlet.class, immediate = true)
 @SlingServletResourceTypes(
-        resourceTypes="seekerstore/components/login",
+        resourceTypes={"seekerstore/components/login","seekerstore/components/signup"},
         methods=HttpConstants.METHOD_POST,
-        selectors = "login",
+        selectors = {"login","signup"},
         extensions="json")
 @ServiceDescription("Login Servlet")
 public class LoginServlet extends SlingAllMethodsServlet {
@@ -46,10 +47,22 @@ public class LoginServlet extends SlingAllMethodsServlet {
             final SlingHttpServletResponse response) throws ServletException, IOException {
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-            AuthRequest authRequest = new AuthRequest();
-            authRequest.setUsername(request.getParameter("username"));
-            authRequest.setPassword(request.getParameter("password"));
-            AuthResponse authResponse = authService.getToken(authRequest);
+            String selector = request.getRequestPathInfo().getSelectorString();
+            AuthResponse authResponse = null;
+            if(selector.equals("login")){
+                AuthRequest authRequest = new AuthRequest();
+                authRequest.setUsername(request.getParameter("username"));
+                authRequest.setPassword(request.getParameter("password"));
+                authResponse = authService.getToken(authRequest);
+            }else if(selector.equals("signup")){
+                SignupRequest signupRequest = new SignupRequest();
+                signupRequest.setName(request.getParameter("name"));
+                signupRequest.setEmail(request.getParameter("email"));
+                signupRequest.setPassword(request.getParameter("password"));
+                signupRequest.setPhone(request.getParameter("phone"));
+                signupRequest.setRole(request.getParameter("role"));
+                authResponse = authService.getTokenOnRegister(signupRequest);
+            }
             if(StringUtils.isNotEmpty(authResponse.getToken())){
                 cookieService.createSimpleCookie(response, "access-token",authResponse.getToken());
             }
