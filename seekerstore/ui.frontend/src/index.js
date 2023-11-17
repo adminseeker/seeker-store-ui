@@ -11,6 +11,9 @@ import App from './App';
 import LocalDevModelClient from './LocalDevModelClient';
 import './components/import-components';
 import './index.css';
+import { Provider } from 'react-redux';
+import configureStore from './store/configureStore';
+import Header from './components/Header/Header';
 
 // const modelManagerOptions = {};
 // if(process.env.REACT_APP_PROXY_ENABLED) {
@@ -39,17 +42,22 @@ if (process.env.REACT_APP_PROXY_ENABLED) {
 const renderApp = () => {
     ModelManager.initialize(modelManagerOptions).then(pageModel => {
         const history = createBrowserHistory();
+        const store = configureStore();
         render(
-            <Router history={history}>
-                <App
-                    history={history}
-                    cqChildren={pageModel[Constants.CHILDREN_PROP]}
-                    cqItems={pageModel[Constants.ITEMS_PROP]}
-                    cqItemsOrder={pageModel[Constants.ITEMS_ORDER_PROP]}
-                    cqPath={pageModel[Constants.PATH_PROP]}
-                    locationPathname={window.location.pathname}
-                />
-            </Router>,
+            <Provider store={store}>
+                <Router history={history}>
+                    
+                    <App
+                        history={history}
+                        cqChildren={pageModel[Constants.CHILDREN_PROP]}
+                        cqItems={pageModel[Constants.ITEMS_PROP]}
+                        cqItemsOrder={pageModel[Constants.ITEMS_ORDER_PROP]}
+                        cqPath={pageModel[Constants.PATH_PROP]}
+                        locationPathname={window.location.pathname}
+                    />
+                </Router>
+            </Provider>
+            ,
             document.getElementById('spa-root')
         );
     });

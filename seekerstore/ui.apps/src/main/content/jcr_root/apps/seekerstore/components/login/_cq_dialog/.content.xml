@@ -16,17 +16,70 @@
                         sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                         fieldLabel="Username Label"
                         name="./usernameLabel"/>
+                    <invalidEmailError
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                        fieldLabel="Invalid Email Error"
+                        name="./invalidEmailError"/>
                     <passwordLabel
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                         fieldLabel="Password Label"
                         name="./passwordLabel"/>
-
+                    <minimumPasswordLength
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                        fieldLabel="Minimum Password Length"
+                        name="./minimumPasswordLength"/>
+                    <invalidPasswordError
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                        fieldLabel="Invalid Password Error"
+                        name="./invalidPasswordError"/>
                     <submitButtonLabel
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                         fieldLabel="Submit Button  Label"
                         name="./submitButtonLabel"/>
+                    <forgotPasswordLinkLabel
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                        fieldLabel="Forgot Password Label"
+                        name="./forgotPasswordLinkLabel"/>
+                    <forgotPasswordLink
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                        fieldLabel="Forgot Password Link"
+                        name="./forgotPasswordLink"
+                        rootPath="/content/seekerstore"/>
+                    <signUpLinkLabel
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                        fieldLabel="Signup Label"
+                        name="./signUpLinkLabel"/>
+                    <signUpLink
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                        fieldLabel="Signup Link"
+                        name="./signUpLink"
+                        rootPath="/content/seekerstore"/>
+                    <dashboardLink
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                        fieldDescription="Page Link to land after logging in"
+                        fieldLabel="Dashboard Link"
+                        name="./dashboardLink"
+                        rootPath="/content/seekerstore"/>
+                    <invalidCredsError
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                        fieldLabel="Invalid Credentials Error"
+                        name="./invalidCredsError"/>
+                    <genericError
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                        fieldLabel="Generic Error"
+                        name="./genericError"/>
                 </items>
             </column>
         </items>
