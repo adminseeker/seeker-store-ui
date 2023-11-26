@@ -47,7 +47,7 @@ export const withRoute = (WrappedComponent, extension) => {
           paths.push(routePath.substring(PROJECT_URL_ROOT.length) + ".html");
       }
 
-      console.log("paths: ",paths)
+      // console.log("paths: ",paths)
 
       // Context path + route path + extension
       return (

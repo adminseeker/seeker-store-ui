@@ -80,6 +80,13 @@ public class SignupModel implements ComponentExporter{
     @Getter @Setter
     private String submitButtonLabel;
 
+    @ValueMapValue
+    @Getter @Setter
+    private String signUpLinkLabel;
+
+    @ValueMapValue
+    @Getter @Setter
+    private String signUpLink;
 
     @ValueMapValue
     @Getter @Setter

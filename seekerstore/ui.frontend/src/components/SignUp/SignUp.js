@@ -223,10 +223,15 @@ const onSubmit = async (e)=>{
             >
               {props.submitButtonLabel}
             </Button>
-            <Grid container justifyContent="flex-end">
+            <Grid container>
+              <Grid item xs>
+                <Link href={props.signUpLink} variant="body2">
+                {props.signUpLinkLabel}
+                </Link>
+              </Grid>
               <Grid item>
                 <Link href={props.signinLink} variant="body2">
-                  {props.signinLinkLabel}
+                {props.signinLinkLabel}
                 </Link>
               </Grid>
             </Grid>

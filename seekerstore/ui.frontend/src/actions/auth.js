@@ -19,7 +19,7 @@ const login = (cqPath,{username,password})=>{
                 type:"LOGIN_SUCCESS",
             });
             
-            await dispatch(loadUser());
+            // await dispatch(loadUser());
             return res.data;
         } catch (err) {
             console.log(err);
@@ -48,7 +48,7 @@ const signup = (cqPath,body)=>{
                 type:"LOGIN_SUCCESS",
             });
             
-            await dispatch(loadUser());
+            // await dispatch(loadUser());
             return res.data;
         } catch (err) {
             console.log(err);

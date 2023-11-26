@@ -10,9 +10,9 @@ import { AuthoringUtils } from '@adobe/aem-spa-page-model-manager';
 const store = configureStore();
 class App extends Page {
   
-  componentDidMount(){
-    !AuthoringUtils.isInEditor() && store.dispatch(loadUser());
-  }
+  // componentDidMount(){
+  //   !AuthoringUtils.isInEditor() && store.dispatch(loadUser());
+  // }
   render() {
     return (
       <div>

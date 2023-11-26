@@ -66,9 +66,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 const  Header = (props) => {
 
-  React.useEffect(()=>{
-    !AuthoringUtils.isInEditor() && dispatch(loadUser())
-  },[])
+  // React.useEffect(()=>{
+  //   !AuthoringUtils.isInEditor() && dispatch(loadUser())
+  // },[])
   const dispatch = useDispatch();
 
   const store = useSelector((state)=>({
@@ -86,10 +86,10 @@ const  Header = (props) => {
   let headerSettingLinksPreAuth = props.headerSettingLinks && props.headerSettingLinks.filter((link)=>!link.showAfterAuth);
   let headerSettingLinksPostAuth = props.headerSettingLinks &&  props.headerSettingLinks.filter((link)=>link.showAfterAuth);
 
-  console.log("headerLinksPreAuth: ",headerLinksPreAuth)
-  console.log("headerLinksPostAuth: ",headerLinksPostAuth)
-  console.log("headerSettingLinksPreAuth: ",headerSettingLinksPreAuth)
-  console.log("headerSettingLinksPostAuth: ",headerSettingLinksPostAuth)
+  // console.log("headerLinksPreAuth: ",headerLinksPreAuth)
+  // console.log("headerLinksPostAuth: ",headerLinksPostAuth)
+  // console.log("headerSettingLinksPreAuth: ",headerSettingLinksPreAuth)
+  // console.log("headerSettingLinksPostAuth: ",headerSettingLinksPostAuth)
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
